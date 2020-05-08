@@ -5,6 +5,7 @@ import application.Message;
 import com.esotericsoftware.kryonet.*;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -15,13 +16,17 @@ public class ClientHandler extends Listener{
    // static boolean received = false;
 
     public static void setup(){
-        try {
+
             disableWarning();
 
             client = new Client();
 
             Register.register(client.getKryo());
 
+    }
+
+    public static void start(){
+        try {
             client.start();
 
             client.connect(5000, ip, tcpPort, udpPort);
@@ -31,11 +36,18 @@ public class ClientHandler extends Listener{
 
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
             Main.g.taChat.append("["+ LocalTime.now().format(dtf) +  " Connected as Client]\n");
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void kill(){
+        client.close();
+        client = null;
+    }
+
+    public static InetAddress discover(){
+        return client.discoverHost(tcpPort, 2000);
     }
 
     private static void disableWarning() {

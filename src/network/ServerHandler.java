@@ -16,12 +16,13 @@ public class ServerHandler extends Listener{
    // static boolean received = false;
 
     public static void setup(){
-        try {
             disableWarning();
             server = new Server();
-
             Register.register(server.getKryo());
+    }
 
+    public static void start(){
+        try {
             server.bind(tcpPort,udpPort);
             server.start();
 
@@ -30,11 +31,16 @@ public class ServerHandler extends Listener{
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm");
             Main.g.taChat.append("["+LocalTime.now().format(dtf) +  " Connected as Host]\n");
             Main.isConnected = true;
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    public static void kill(){
+        server.close();
+        server = null;
+    }
+
     private static void disableWarning() {
         System.err.close();
         System.setErr(System.out);

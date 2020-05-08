@@ -11,7 +11,7 @@ import java.time.LocalTime;
 public class Gui {
     JFrame jf;
     JPanel content;
-    JButton btnHost, btnClient, btnSend;
+    JButton btnHost, btnClient, btnSend, btnDiscover;
     public JTextField tfInput, tfName, tfIP;
     JScrollPane sp;
     public JTextArea taChat;
@@ -33,7 +33,8 @@ public class Gui {
         btnHost.setBounds(10, 10, 100, 25);
         btnHost.setVisible(true);
         btnHost.addActionListener(e -> {
-            ServerHandler.setup();
+            ClientHandler.kill();
+            ServerHandler.start();
             Main.isHost = true;
             disableButtons();
 
@@ -44,14 +45,23 @@ public class Gui {
         btnClient.setBounds(120, 10, 100, 25);
         btnClient.setVisible(true);
         btnClient.addActionListener(e -> {
+            ServerHandler.kill();
             if(!tfIP.getText().isEmpty()){
                 ClientHandler.ip = tfIP.getText();
             }
-            ClientHandler.setup();
+            ClientHandler.start();
             Main.isHost = false;
             disableButtons();
         });
         content.add(btnClient);
+
+        btnDiscover = new JButton("Discover Host");
+        btnDiscover.setBounds(285, 510, 125, 25);
+        btnDiscover.setVisible(true);
+        btnDiscover.addActionListener(e -> {
+            tfIP.setText(ClientHandler.discover().getHostAddress());
+        });
+        content.add(btnDiscover);
 
         JLabel lblName = new JLabel("Name:");
         lblName.setBounds(10,485,50,25);
