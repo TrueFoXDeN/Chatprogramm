@@ -47,13 +47,13 @@ public class ClientHandler extends Listener{
         client = null;
     }
 
-    public static String discover(){
-        List<InetAddress> list = client.discoverHosts(tcpPort, 2000);
-        for (InetAddress a: list){
-            System.out.println(a.getHostName());
-        }
-        return "";
-    }
+//    public static String discover(){
+//        List<InetAddress> list = client.discoverHosts(tcpPort, 2000);
+//        for (InetAddress a: list){
+//            System.out.println(a.getHostName());
+//        }
+//        return "";
+//    }
 
     private static void disableWarning() {
         System.err.close();

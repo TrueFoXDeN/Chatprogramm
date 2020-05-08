@@ -62,13 +62,13 @@ public class Gui {
         });
         content.add(btnClient);
 
-        btnDiscover = new JButton("Discover Host");
-        btnDiscover.setBounds(285, 510, 125, 25);
-        btnDiscover.setVisible(true);
-        btnDiscover.addActionListener(e -> {
-            tfIP.setText(ClientHandler.discover());
-        });
-        content.add(btnDiscover);
+//        btnDiscover = new JButton("Discover Host");
+//        btnDiscover.setBounds(285, 510, 125, 25);
+//        btnDiscover.setVisible(true);
+//        btnDiscover.addActionListener(e -> {
+//            tfIP.setText(ClientHandler.discover());
+//        });
+//        content.add(btnDiscover);
 
         JLabel lblName = new JLabel("Name:");
         lblName.setBounds(10,485,50,25);
