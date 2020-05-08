@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class ClientHandler extends Listener{
     static Client client;
@@ -46,8 +47,12 @@ public class ClientHandler extends Listener{
         client = null;
     }
 
-    public static InetAddress discover(){
-        return client.discoverHost(tcpPort, 2000);
+    public static String discover(){
+        List<InetAddress> list = client.discoverHosts(tcpPort, 2000);
+        for (InetAddress a: list){
+            System.out.println(a.getHostName());
+        }
+        return "";
     }
 
     private static void disableWarning() {

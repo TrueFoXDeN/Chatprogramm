@@ -18,6 +18,13 @@ public class Gui {
     int width = 435, height = 580;
 
     public void create() {
+
+        try {
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
+
         jf = new JFrame("Chat Test");
         jf.setSize(width, height);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,7 +66,7 @@ public class Gui {
         btnDiscover.setBounds(285, 510, 125, 25);
         btnDiscover.setVisible(true);
         btnDiscover.addActionListener(e -> {
-            tfIP.setText(ClientHandler.discover().getHostAddress());
+            tfIP.setText(ClientHandler.discover());
         });
         content.add(btnDiscover);
 
@@ -77,7 +84,7 @@ public class Gui {
         content.add(lblIP);
 
         tfIP = new JTextField();
-        tfIP.setBounds(100, 510, 80, 25);
+        tfIP.setBounds(100, 510, 150, 25);
         tfIP.setVisible(true);
         content.add(tfIP);
 
