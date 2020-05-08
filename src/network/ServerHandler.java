@@ -57,7 +57,7 @@ public class ServerHandler extends Listener{
         if(o instanceof Message){
             Message m = (Message) o;
             Main.g.taChat.append(m.getMessage());
-            server.sendToAllExceptTCP(Integer.parseInt(c.getRemoteAddressTCP().getHostName()), m);
+            server.sendToAllExceptTCP(c.getID(), m);
         }
 
     }
