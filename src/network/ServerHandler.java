@@ -66,8 +66,11 @@ public class ServerHandler extends Listener{
 
     }
 
+    @Override
     public void disconnected(Connection c){
-        Main.g.taChat.append("["+c.getRemoteAddressTCP().getHostString() + " Disconnected]\n");
+
+
+        Main.g.taChat.append("[Connection "+c.getID() + " Disconnected]\n");
     }
 
     public static void close(){
