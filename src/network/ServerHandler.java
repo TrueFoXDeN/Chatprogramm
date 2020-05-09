@@ -15,14 +15,12 @@ public class ServerHandler extends Listener{
     static int udpPort = 54555, tcpPort = 54777;
    // static boolean received = false;
 
-    public static void setup(){
-            disableWarning();
-            server = new Server();
-            Register.register(server.getKryo());
-    }
 
     public static void start(){
         try {
+            disableWarning();
+            server = new Server();
+            Register.register(server.getKryo());
             server.bind(tcpPort,udpPort);
             server.start();
 
@@ -69,7 +67,12 @@ public class ServerHandler extends Listener{
     }
 
     public void disconnected(Connection c){
-        //Main.g.taChat.append("["+c.getRemoteAddressTCP().getHostString() + " Disconnected]");
+        Main.g.taChat.append("["+c.getRemoteAddressTCP().getHostString() + " Disconnected]\n");
+    }
+
+    public static void close(){
+        Main.g.taChat.append("[Disconnected]\n");
+        server.close();
     }
 
 

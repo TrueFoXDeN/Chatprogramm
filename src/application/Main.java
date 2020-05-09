@@ -11,7 +11,5 @@ public class Main {
     public static void main(String[] args) {
         g = new Gui();
         g.create();
-        ServerHandler.setup();
-        ClientHandler.setup();
     }
 }

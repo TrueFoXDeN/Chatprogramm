@@ -11,7 +11,7 @@ import java.time.LocalTime;
 public class Gui {
     JFrame jf;
     JPanel content;
-    JButton btnHost, btnClient, btnSend, btnDiscover;
+    public JButton btnHost, btnClient, btnSend, btnDisconnect;
     public JTextField tfInput, tfName, tfIP;
     JScrollPane sp;
     public JTextArea taChat;
@@ -40,10 +40,12 @@ public class Gui {
         btnHost.setBounds(10, 10, 100, 25);
         btnHost.setVisible(true);
         btnHost.addActionListener(e -> {
-            ClientHandler.kill();
+            btnDisconnect.setEnabled(true);
+
             ServerHandler.start();
             Main.isHost = true;
-            disableButtons();
+            //btnClient.setEnabled(false);
+            //btnHost.setEnabled(false);
 
         });
         content.add(btnHost);
@@ -52,26 +54,18 @@ public class Gui {
         btnClient.setBounds(120, 10, 100, 25);
         btnClient.setVisible(true);
         btnClient.addActionListener(e -> {
-            ServerHandler.kill();
-            if(!tfIP.getText().isEmpty()){
+
+            //btnDisconnect.setEnabled(true);
+            if (!tfIP.getText().isEmpty()) {
                 ClientHandler.ip = tfIP.getText();
             }
             ClientHandler.start();
             Main.isHost = false;
-            disableButtons();
         });
         content.add(btnClient);
 
-//        btnDiscover = new JButton("Discover Host");
-//        btnDiscover.setBounds(285, 510, 125, 25);
-//        btnDiscover.setVisible(true);
-//        btnDiscover.addActionListener(e -> {
-//            tfIP.setText(ClientHandler.discover());
-//        });
-//        content.add(btnDiscover);
-
         JLabel lblName = new JLabel("Name:");
-        lblName.setBounds(10,485,50,25);
+        lblName.setBounds(10, 485, 50, 25);
         content.add(lblName);
 
         tfName = new JTextField();
@@ -80,7 +74,7 @@ public class Gui {
         content.add(tfName);
 
         JLabel lblIP = new JLabel("Server IP (leer für Localhost):");
-        lblIP.setBounds(100,485,200,25);
+        lblIP.setBounds(100, 485, 200, 25);
         content.add(lblIP);
 
         tfIP = new JTextField();
@@ -102,9 +96,9 @@ public class Gui {
                 m.setText(tfInput.getText());
                 m.setAbsender(tfName.getText());
                 m.setTimeStamp(LocalTime.now());
-                if(Main.isHost){
+                if (Main.isHost) {
                     ServerHandler.send(m);
-                }else{
+                } else {
                     ClientHandler.send(m);
                 }
                 tfInput.setText("");
@@ -113,11 +107,27 @@ public class Gui {
         });
         content.add(btnSend);
 
+        btnDisconnect = new JButton("Disconnect");
+        btnDisconnect.setBounds(310, 510, 100, 25);
+        btnDisconnect.setVisible(true);
+        btnDisconnect.setEnabled(false);
+        btnDisconnect.addActionListener(e -> {
+            if(Main.isHost){
+                ServerHandler.close();
+            }else{
+                ClientHandler.close();
+            }
+            btnDisconnect.setEnabled(false);
+            btnHost.setEnabled(true);
+            btnClient.setEnabled(true);
+        });
+        content.add(btnDisconnect);
+
         taChat = new JTextArea();
         taChat.setVisible(true);
 
         sp = new JScrollPane(taChat);
-        sp.setBounds(10,80,400,400);
+        sp.setBounds(10, 80, 400, 400);
         sp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         content.add(sp);
@@ -126,8 +136,4 @@ public class Gui {
         jf.setVisible(true);
     }
 
-    private void disableButtons(){
-        btnHost.setEnabled(false);
-        btnClient.setEnabled(false);
-    }
 }
